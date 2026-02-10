@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1220" />
-  <title>СеверСтройСервис — контакты</title>
+  <title>Sever Stroi Servis — Контакты</title>
 
   <style>
     :root{
@@ -22,7 +22,6 @@
     }
 
     *{ box-sizing:border-box; }
-
     html, body{ margin:0; padding:0; width:100%; background:var(--bg1); }
 
     .bg{
@@ -57,7 +56,22 @@
       box-shadow:0 18px 45px rgba(0,0,0,.35);
     }
 
-    header{ padding:20px 20px 12px; border-bottom:1px solid var(--stroke); }
+    header{
+      padding:20px 20px 12px;
+      border-bottom:1px solid var(--stroke);
+      text-align:center;
+    }
+
+    .logo{
+      width: 96px;
+      height: auto;
+      display:block;
+      margin: 2px auto 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+    }
+
     h1{ margin:0; font-size:22px; letter-spacing:.2px; }
     p{ margin:8px 0 0; color:var(--muted); line-height:1.45; }
 
@@ -77,18 +91,19 @@
       text-align:left;
     }
 
-    .left{ display:flex; gap:12px; align-items:center; }
+    .left{ display:flex; gap:12px; align-items:center; min-width:0; }
     .icon{
       width:36px; height:36px; border-radius:12px;
       display:grid; place-items:center;
-      font-weight:800;
+      font-weight:900;
+      font-size: 16px;
       background:rgba(96,165,250,.16);
       border:1px solid rgba(96,165,250,.22);
       color:var(--accent);
       flex:0 0 auto;
     }
-    .label{ font-weight:750; }
-    .sub{ font-size:13px; color:var(--muted); margin-top:2px; }
+    .label{ font-weight:800; font-size:16px; line-height:1.15; }
+    .sub{ font-size:13px; color:var(--muted); margin-top:3px; line-height:1.25; }
     .chev{ color:rgba(229,231,235,.55); font-size:18px; padding-left:10px; }
 
     /* Modal */
@@ -106,12 +121,14 @@
       z-index:50;
     }
     .modal.is-open{ display:flex; }
+
     .backdrop{
       position:absolute; inset:0;
       background:rgba(0,0,0,.55);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
     }
+
     .dialog{
       position:relative;
       width:min(560px, 100%);
@@ -121,6 +138,7 @@
       background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 35%), var(--card);
       box-shadow:0 18px 45px rgba(0,0,0,.45);
     }
+
     .dialog-head{
       padding:16px 16px 12px;
       display:flex; justify-content:space-between; gap:12px; align-items:flex-start;
@@ -165,7 +183,7 @@
       background: rgba(96,165,250,.18);
       color:var(--text);
       cursor:pointer;
-      font-weight:800;
+      font-weight:900;
     }
     .primary[disabled]{ opacity:.55; cursor:default; }
 
@@ -177,7 +195,7 @@
       background: rgba(255,255,255,.06);
       color:var(--text);
       cursor:pointer;
-      font-weight:700;
+      font-weight:800;
     }
 
     .msg{
@@ -202,8 +220,9 @@
 
   <main class="card">
     <header>
-      <h1>СеверСтройСервис</h1>
-      <p>Контакты и заявка на обратный звонок.</p>
+      <img class="logo" src="logo.png" alt="Sever Stroi Servis logo" />
+      <h1>Sever Stroi Servis</h1>
+      <p>Контакты</p>
     </header>
 
     <section class="btns">
@@ -211,7 +230,7 @@
         <div class="left">
           <div class="icon">W</div>
           <div>
-            <div class="label">Наш сайт</div>
+            <div class="label">Сайт</div>
             <div class="sub">severstroiservis.ru</div>
           </div>
         </div>
@@ -222,7 +241,7 @@
         <div class="left">
           <div class="icon">@</div>
           <div>
-            <div class="label">Наша почта</div>
+            <div class="label">Почта</div>
             <div class="sub">mail@severstroiservis.ru</div>
           </div>
         </div>
@@ -233,7 +252,7 @@
         <div class="left">
           <div class="icon">T</div>
           <div>
-            <div class="label">Наш номер</div>
+            <div class="label">Номер</div>
             <div class="sub">8 (3494) 91‑72‑07</div>
           </div>
         </div>
@@ -242,7 +261,7 @@
 
       <button class="btn" type="button" id="openModal">
         <div class="left">
-          <div class="icon">✎</div>
+          <div class="icon">C</div>
           <div>
             <div class="label">Оставить заявку</div>
             <div class="sub">Обратный звонок</div>
@@ -253,7 +272,6 @@
     </section>
   </main>
 
-  <!-- Modal -->
   <div class="modal" id="modal" aria-hidden="true">
     <div class="backdrop" id="backdrop"></div>
 
@@ -266,7 +284,6 @@
         <button class="close" type="button" id="closeModal" aria-label="Закрыть">×</button>
       </div>
 
-      <!-- ВАЖНО: endpoint уже вставлен -->
       <form id="leadForm" action="https://formspree.io/f/mreabdaj" method="POST">
         <label>
           Имя
@@ -278,7 +295,6 @@
           <input name="phone" id="phone" placeholder="+7 ___ ___‑__‑__" inputmode="tel" autocomplete="tel" required />
         </label>
 
-        <!-- Можно добавить скрытое поле, чтобы в заявках видеть источник -->
         <input type="hidden" name="page" id="pageField" value="" />
 
         <div class="actions">
@@ -363,10 +379,9 @@
 
         if (res.ok) {
           okMsg.classList.add('is-show');
-          // Окно оставляем открытым (как ты просил)
-          // Можно очистить поля, чтобы не мешало:
           form.reset();
           pageField.value = location.href;
+          submitBtn.disabled = false; // окно остаётся открытым
         } else {
           submitBtn.disabled = false;
           sendErr.classList.add('is-show');
