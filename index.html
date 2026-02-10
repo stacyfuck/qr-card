@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1220" />
-  <title>Контакты</title>
+  <title>СеверСтройСервис — контакты</title>
 
   <style>
     :root{
@@ -17,19 +17,14 @@
       --btn:#1f2a44;
       --btn2:#24355f;
       --accent:#60a5fa;
+      --ok:#34d399;
+      --bad:#fb7185;
     }
 
     *{ box-sizing:border-box; }
 
-    /* На всякий: убираем белый фон у корня */
-    html, body{
-      margin:0;
-      padding:0;
-      width:100%;
-      background: var(--bg1);
-    }
+    html, body{ margin:0; padding:0; width:100%; background:var(--bg1); }
 
-    /* Фон-слой, который всегда закрывает весь экран на iPhone */
     .bg{
       position: fixed;
       inset: 0;
@@ -40,26 +35,21 @@
     }
 
     body{
-      /* динамические высоты для мобилок */
-      min-height: 100svh;
-      min-height: 100dvh;
-
+      min-height:100svh;
+      min-height:100dvh;
       display:grid;
       place-items:center;
-
-      /* safe-area, чтобы красиво на iPhone с “чёлкой” */
       padding:
         calc(26px + env(safe-area-inset-top, 0px))
         calc(14px + env(safe-area-inset-right, 0px))
         calc(26px + env(safe-area-inset-bottom, 0px))
         calc(14px + env(safe-area-inset-left, 0px));
-
-      font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
       color:var(--text);
     }
 
     .card{
-      width:min(520px, 100%);
+      width:min(560px, 100%);
       background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 35%), var(--card);
       border:1px solid var(--stroke);
       border-radius:18px;
@@ -68,35 +58,142 @@
     }
 
     header{ padding:20px 20px 12px; border-bottom:1px solid var(--stroke); }
-    h1{ margin:0; font-size:22px; }
+    h1{ margin:0; font-size:22px; letter-spacing:.2px; }
     p{ margin:8px 0 0; color:var(--muted); line-height:1.45; }
 
     .btns{ padding:14px; display:grid; gap:10px; }
 
-    a.btn{
+    a.btn, button.btn{
+      appearance:none; -webkit-appearance:none;
+      width:100%;
       display:flex; align-items:center; justify-content:space-between;
       padding:14px 14px;
       text-decoration:none;
       color:var(--text);
+      cursor:pointer;
       background:linear-gradient(180deg, var(--btn2), var(--btn));
       border:1px solid var(--stroke);
       border-radius:14px;
+      text-align:left;
     }
 
     .left{ display:flex; gap:12px; align-items:center; }
     .icon{
       width:36px; height:36px; border-radius:12px;
       display:grid; place-items:center;
-      font-weight:700;
+      font-weight:800;
       background:rgba(96,165,250,.16);
       border:1px solid rgba(96,165,250,.22);
       color:var(--accent);
+      flex:0 0 auto;
     }
-    .label{ font-weight:650; }
+    .label{ font-weight:750; }
     .sub{ font-size:13px; color:var(--muted); margin-top:2px; }
-    .chev{ color:rgba(229,231,235,.55); font-size:18px; }
+    .chev{ color:rgba(229,231,235,.55); font-size:18px; padding-left:10px; }
 
-    footer{ padding:0 14px 16px; color:var(--muted); font-size:12px; }
+    /* Modal */
+    .modal{
+      position: fixed;
+      inset: 0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:
+        calc(18px + env(safe-area-inset-top, 0px))
+        calc(14px + env(safe-area-inset-right, 0px))
+        calc(18px + env(safe-area-inset-bottom, 0px))
+        calc(14px + env(safe-area-inset-left, 0px));
+      z-index:50;
+    }
+    .modal.is-open{ display:flex; }
+    .backdrop{
+      position:absolute; inset:0;
+      background:rgba(0,0,0,.55);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .dialog{
+      position:relative;
+      width:min(560px, 100%);
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), transparent 35%), var(--card);
+      box-shadow:0 18px 45px rgba(0,0,0,.45);
+    }
+    .dialog-head{
+      padding:16px 16px 12px;
+      display:flex; justify-content:space-between; gap:12px; align-items:flex-start;
+      border-bottom:1px solid var(--stroke);
+    }
+    .dialog-title{ margin:0; font-size:18px; }
+    .dialog-sub{ margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.4; }
+
+    .close{
+      appearance:none; -webkit-appearance:none;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      border-radius:12px;
+      width:38px; height:38px;
+      cursor:pointer;
+      font-size:18px;
+      flex:0 0 auto;
+    }
+
+    form{ padding:14px 16px 16px; display:grid; gap:10px; }
+    label{ display:grid; gap:6px; font-size:13px; color:var(--muted); }
+
+    input{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(2,6,23,.35);
+      color:var(--text);
+      outline:none;
+      font-size:16px;
+    }
+
+    .actions{ display:flex; gap:10px; margin-top:6px; }
+
+    .primary{
+      flex:1 1 auto;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(96,165,250,.35);
+      background: rgba(96,165,250,.18);
+      color:var(--text);
+      cursor:pointer;
+      font-weight:800;
+    }
+    .primary[disabled]{ opacity:.55; cursor:default; }
+
+    .secondary{
+      flex:0 0 auto;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      cursor:pointer;
+      font-weight:700;
+    }
+
+    .msg{
+      display:none;
+      margin-top:4px;
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      line-height:1.35;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+    }
+    .msg.ok{ border-color: rgba(52,211,153,.25); background: rgba(52,211,153,.10); }
+    .msg.bad{ border-color: rgba(251,113,133,.25); background: rgba(251,113,133,.10); }
+    .msg.is-show{ display:block; }
   </style>
 </head>
 
@@ -105,8 +202,8 @@
 
   <main class="card">
     <header>
-      <h1>Артём</h1>
-      <p>Нажми на кнопку — откроется сайт, звонок или почта.</p>
+      <h1>СеверСтройСервис</h1>
+      <p>Контакты и заявка на обратный звонок.</p>
     </header>
 
     <section class="btns">
@@ -114,37 +211,171 @@
         <div class="left">
           <div class="icon">W</div>
           <div>
-            <div class="label">Сайт</div>
+            <div class="label">Наш сайт</div>
             <div class="sub">severstroiservis.ru</div>
           </div>
         </div>
         <div class="chev">›</div>
       </a>
 
-      <a class="btn" href="tel:+79991234567">
-        <div class="left">
-          <div class="icon">T</div>
-          <div>
-            <div class="label">Позвонить</div>
-            <div class="sub">+7 999 123‑45‑67</div>
-          </div>
-        </div>
-        <div class="chev">›</div>
-      </a>
-
-      <a class="btn" href="mailto:hello@example.com?subject=Заявка%20с%20QR">
+      <a class="btn" href="mailto:mail@severstroiservis.ru">
         <div class="left">
           <div class="icon">@</div>
           <div>
-            <div class="label">Почта</div>
-            <div class="sub">hello@example.com</div>
+            <div class="label">Наша почта</div>
+            <div class="sub">mail@severstroiservis.ru</div>
           </div>
         </div>
         <div class="chev">›</div>
       </a>
-    </section>
 
-    <footer>Ссылки tel: и mailto: — стандартные, на телефоне открывают звонок и письмо.</footer>
+      <a class="btn" href="tel:+73494917207">
+        <div class="left">
+          <div class="icon">T</div>
+          <div>
+            <div class="label">Наш номер</div>
+            <div class="sub">8 (3494) 91‑72‑07</div>
+          </div>
+        </div>
+        <div class="chev">›</div>
+      </a>
+
+      <button class="btn" type="button" id="openModal">
+        <div class="left">
+          <div class="icon">✎</div>
+          <div>
+            <div class="label">Оставить заявку</div>
+            <div class="sub">Обратный звонок</div>
+          </div>
+        </div>
+        <div class="chev">›</div>
+      </button>
+    </section>
   </main>
+
+  <!-- Modal -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="backdrop" id="backdrop"></div>
+
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+      <div class="dialog-head">
+        <div>
+          <h2 class="dialog-title" id="dlgTitle">Заявка на обратный звонок</h2>
+          <p class="dialog-sub">Введите имя и номер — мы перезвоним.</p>
+        </div>
+        <button class="close" type="button" id="closeModal" aria-label="Закрыть">×</button>
+      </div>
+
+      <!-- ВАЖНО: endpoint уже вставлен -->
+      <form id="leadForm" action="https://formspree.io/f/mreabdaj" method="POST">
+        <label>
+          Имя
+          <input name="name" id="name" placeholder="Например: Иван" autocomplete="name" required />
+        </label>
+
+        <label>
+          Номер телефона
+          <input name="phone" id="phone" placeholder="+7 ___ ___‑__‑__" inputmode="tel" autocomplete="tel" required />
+        </label>
+
+        <!-- Можно добавить скрытое поле, чтобы в заявках видеть источник -->
+        <input type="hidden" name="page" id="pageField" value="" />
+
+        <div class="actions">
+          <button class="primary" type="submit" id="submitBtn">Отправить заявку</button>
+          <button class="secondary" type="button" id="cancel">Отмена</button>
+        </div>
+
+        <div class="msg bad" id="badMsg">Заполни, пожалуйста, имя и номер.</div>
+        <div class="msg bad" id="sendErr">Не удалось отправить. Попробуйте ещё раз или позвоните.</div>
+        <div class="msg ok" id="okMsg">Успешно!</div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('modal');
+    const openModal = document.getElementById('openModal');
+    const closeModal = document.getElementById('closeModal');
+    const backdrop = document.getElementById('backdrop');
+    const cancel = document.getElementById('cancel');
+
+    const form = document.getElementById('leadForm');
+    const nameEl = document.getElementById('name');
+    const phoneEl = document.getElementById('phone');
+    const pageField = document.getElementById('pageField');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const badMsg = document.getElementById('badMsg');
+    const sendErr = document.getElementById('sendErr');
+    const okMsg = document.getElementById('okMsg');
+
+    function open() {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      badMsg.classList.remove('is-show');
+      sendErr.classList.remove('is-show');
+      okMsg.classList.remove('is-show');
+      submitBtn.disabled = false;
+      pageField.value = location.href;
+      setTimeout(() => nameEl.focus(), 50);
+    }
+
+    function close() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    openModal.addEventListener('click', open);
+    closeModal.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+    cancel.addEventListener('click', close);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = (nameEl.value || '').trim();
+      const phone = (phoneEl.value || '').trim();
+
+      badMsg.classList.remove('is-show');
+      sendErr.classList.remove('is-show');
+      okMsg.classList.remove('is-show');
+
+      if (!name || !phone) {
+        badMsg.classList.add('is-show');
+        return;
+      }
+
+      submitBtn.disabled = true;
+
+      try {
+        const data = new FormData(form);
+
+        const res = await fetch(form.action, {
+          method: form.method,
+          body: data,
+          headers: { "Accept": "application/json" }
+        });
+
+        if (res.ok) {
+          okMsg.classList.add('is-show');
+          // Окно оставляем открытым (как ты просил)
+          // Можно очистить поля, чтобы не мешало:
+          form.reset();
+          pageField.value = location.href;
+        } else {
+          submitBtn.disabled = false;
+          sendErr.classList.add('is-show');
+        }
+      } catch (err) {
+        submitBtn.disabled = false;
+        sendErr.classList.add('is-show');
+      }
+    });
+  </script>
 </body>
 </html>
